@@ -41,7 +41,7 @@ pwgen | pbcopy
 -TI)!9~GmQm~a=jj
 ```
 
-### Parts with delimiter (lowercase and numbers only)
+### Parts with delimiter
 `pwgen --parts=3 --length=5 --delimiter="-" -an`
 ```
 iic2d-xrvad-9bnuz
@@ -85,4 +85,15 @@ AUAYYZJXWMIKMPJGHVQSPKUGPUFTCU
 `pwgen -aAn`
 ```
 APlngye5IiXTu0z7NETffgS67bOX48
+```
+
+## Development
+### Unit tests
+```
+npm test
+```
+
+### Build from TypeScript source
+```
+npm run build
 ```
