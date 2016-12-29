@@ -42,10 +42,17 @@ pwgen | pbcopy
 ```
 
 ### Parts with delimiter
-`pwgen --parts=3 --length=5 --delimiter="-" -an`
+`pwgen --parts=3 --length=5 --delimiter="-"`
 ```
-iic2d-xrvad-9bnuz
+1TX)C-rivp<-MWvZ5
 ```
+
+#### ProTip: Use parts for WiFi-friendly passwords
+`pwgen -p 4 -l 5 -an`
+```
+jhnxp-geehp-rtz2n-3m4vt
+```
+The delimiter defaults to `-`.
 
 ### Create multiple passwords
 `pwgen -c 5`
