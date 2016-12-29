@@ -31,6 +31,20 @@ export class PasswordGenerator {
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
+  setHumanReadableOptions(): void {
+    this.options = {
+      lowercaseLetters: true,
+      uppercaseLetters: false,
+      numbers: true,
+      specialCharacters: false,
+      parts: {
+        amount: 3,
+        length: 5,
+        delimiter: '-'
+      }
+    }
+  }
+
   generate(): string {
     let list: string[] = [];
     let password: string = '';
