@@ -1,6 +1,6 @@
 {
   "name": "ts-pwgen",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A command line password generator in TypeScript",
   "main": "lib/dest/main.js",
   "bin": {

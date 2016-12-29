@@ -109,7 +109,7 @@ export class PasswordGenerator {
     return {
       value: password,
       charsetLength: list.length
-    };
+    }
   }
 
   generateMultiple(amount: number, verbose: boolean = false): string[] {
