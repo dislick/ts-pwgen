@@ -19,12 +19,14 @@ Options:
   -l, --length     Define the length of a part
   -d, --delimiter  Define the delimiter to use if there are multiple parts
   -c, --count      Define how many passwords to generate           [Standard: 1]
-  -a, --ascii      Use lowercase letters             [boolean] [Standard: false]
-  -A, --ASCII      Use uppercase letters             [boolean] [Standard: false]
-  -n, --numbers    Use numbers                       [boolean] [Standard: false]
-  -s, --special    Use special characters            [boolean] [Standard: false]
+  -a, --ascii      Use lowercase letters                               [boolean]
+  -A, --ASCII      Use uppercase letters                               [boolean]
+  -n, --numbers    Use numbers                                         [boolean]
+  -s, --special    Use special characters                              [boolean]
+  -x, --latin1     Use latin1 characters                               [boolean]
+  -v, --verbose    Verbose output, see how long it would take a supercomputer to
+                   crack your generated password(s)  [boolean] [Standard: false]
   -h, --help       Show help                                           [boolean]
-
 ```
 
 ## Copy to clipboard
@@ -53,6 +55,17 @@ pwgen | pbcopy
 jhnxp-geehp-rtz2n-3m4vt
 ```
 The delimiter defaults to `-`.
+
+### Show how long it would take a supercomputer to crack your password
+`pwgen -l 16 -v`
+```
+Your password uses a set of 91 characters and has a length of 16.
+There are 2.211374397284394e+31 possible combinations.
+It would take a supercomputer (10^12 passwords/s) 11056871986421970000 seconds to crack it.
+This is equal to 350566645098.98 years or 25.71 times the age of the universe.
+
+77T1X>HCuQ{:%brt
+```
 
 ### Create multiple passwords
 `pwgen -c 5`

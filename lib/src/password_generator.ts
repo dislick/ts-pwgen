@@ -103,8 +103,8 @@ export class PasswordGenerator {
     const round = (input: number) => Math.round(input * 100) / 100;
     const ageOfUniverse = 4.3 * 10 ** 17;
     const secondsInYear = 31540000;
-    let combinations = charsetLength ** password.length;
-    let secs = round(combinations / (2 * 10 ** 12));
+    const combinations = charsetLength ** password.length;
+    const secs = round(combinations / (2 * 10 ** 12));
 
     console.log(`Your password uses a set of ${charsetLength.toString().blue} characters and has a length of ${password.length.toString().blue}.`);
     console.log(`There are ${combinations.toString().cyan} possible combinations.`);
