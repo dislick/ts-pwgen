@@ -1,3 +1,68 @@
-#/usr/bin/env node
+#!/usr/bin/env node
 
-var lib = require('../lib/dest/main.js');
+var PasswordGenerator = require('../lib/dest/password_generator.js').PasswordGenerator;
+var argv = require('yargs')
+  .usage('Usage: $0 [--length 10] [--parts 3] [--delimiter "-"]')
+  .describe('p', 'Define how many parts there should be')
+  .describe('l', 'Define the length of a part')
+  .describe('d', 'Define the delimiter to use if there are multiple parts')
+  .describe('c', 'Define how many passwords to generate')
+  .describe('a', 'Use lowercase letters')
+  .describe('A', 'Use uppercase letters')
+  .describe('n', 'Use numbers')
+  .describe('s', 'Use special characters')  
+  .help('h')
+  .boolean('a').default('a', false)
+  .boolean('A').default('A', false)
+  .boolean('n').default('n', false)
+  .boolean('s').default('s', false)
+  .default('c', 1)
+  .alias('h', 'help')
+  .alias('p', 'parts')
+  .alias('l', 'length')
+  .alias('d', 'delimiter')
+  .alias('a', 'ascii')
+  .alias('A', 'ASCII')
+  .alias('n', 'numbers')
+  .alias('s', 'special')
+  .alias('c', 'count')
+  .argv;
+
+var pwgen = new PasswordGenerator();
+
+/**
+ * Amount of parts: -p or --parts
+ */
+if (argv.parts) {
+  pwgen.options.parts.amount = argv.p || argv.parts;
+}
+
+/**
+ * Length of parts: -l or --length
+ */
+if (argv.length) {
+  pwgen.options.parts.length = argv.l || argv.length;
+}
+
+/**
+ * Delimiter: -d or --delimiter
+ */
+if (argv.delimiter) {
+  pwgen.options.parts.delimiter = argv.d || argv.delimiter;
+}
+
+pwgen.options.lowercaseLetters = argv.ascii;
+pwgen.options.uppercaseLetters = argv.ASCII;
+pwgen.options.numbers = argv.numbers;
+pwgen.options.specialCharacters = argv.special;
+
+if (!argv.ascii && !argv.ASCII && !argv.numbers && !argv.special) {
+  pwgen.options.lowercaseLetters = true;
+  pwgen.options.uppercaseLetters = true;  
+  pwgen.options.numbers = true;
+  pwgen.options.specialCharacters = true;
+}
+
+pwgen.generateMultiple(argv.count).map(function(password) {
+  console.log(password);
+});
