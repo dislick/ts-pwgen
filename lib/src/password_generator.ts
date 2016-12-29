@@ -26,6 +26,9 @@ const defaultOptions: PasswordGeneratorOptions = {
 
 export class PasswordGenerator {
   private static lowercaseLettersList: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  private static uppercaseLettersList: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  private static numbersList: string[] = '0123456789'.split('');
+  private static specialCharactersList: string[] = '!"#%&()*+,-./:;<=>?@[\]^_`{|}~'.split('');
 
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
