@@ -1,8 +1,13 @@
+/// <reference path="../../typings/index.d.ts" />
+
+import 'colors';
+
 interface PasswordGeneratorOptions {
   lowercaseLetters: boolean;
   uppercaseLetters: boolean;
   numbers: boolean;
   specialCharacters: boolean;
+  latin1Characters: boolean;
   parts: {
     amount: number;
     length: number;
@@ -10,11 +15,18 @@ interface PasswordGeneratorOptions {
   }
 }
 
+interface GeneratedPassword {
+  value: string;
+  charsetLength: number;
+  differentCharacters?: number;
+}
+
 const defaultOptions: PasswordGeneratorOptions = {
   lowercaseLetters: true,
   uppercaseLetters: true,
   numbers: true,
   specialCharacters: true,
+  latin1Characters: false,
   parts: {
     amount: 1,
     length: 30,
@@ -27,25 +39,12 @@ export class PasswordGenerator {
   private static uppercaseLettersList: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   private static numbersList: string[] = '0123456789'.split('');
   private static specialCharactersList: string[] = '!"#%&()*+,-./:;<=>?@[\]^_`{|}~'.split('');
+  private static latin1List: string[] = '¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ'.split('');
 
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
-  setHumanReadableOptions(): void {
-    this.options = {
-      lowercaseLetters: true,
-      uppercaseLetters: false,
-      numbers: true,
-      specialCharacters: false,
-      parts: {
-        amount: 3,
-        length: 5,
-        delimiter: '-'
-      }
-    }
-  }
-
-  generate(): string {
+  generate(verbose: boolean = false): GeneratedPassword {
     let list: string[] = [];
     let password: string = '';
 
@@ -61,6 +60,9 @@ export class PasswordGenerator {
     if (this.options.specialCharacters) {
       list = list.concat(PasswordGenerator.specialCharactersList);
     }
+    if (this.options.latin1Characters) {
+      list = list.concat(PasswordGenerator.latin1List);
+    }
 
     for (let partIndex = 0; partIndex < this.options.parts.amount; partIndex++) {
       let part = '';
@@ -75,18 +77,38 @@ export class PasswordGenerator {
       }
 
       password += part;
-    }
+    }    
 
-    return password;
+    return {
+      value: password,
+      charsetLength: list.length
+    };
   }
 
-  generateMultiple(amount: number): string[] {
-    let passwords: string[] = [];
+  generateMultiple(amount: number, verbose: boolean = false): string[] {
+    let passwords: GeneratedPassword[] = [];
 
     for (let i = 0; i < amount; i++) {
       passwords.push(this.generate());
     }
 
-    return passwords;
+    if (verbose) {
+      this.logInformation(passwords[0].value, passwords[0].charsetLength);
+    }
+
+    return passwords.map(pw => pw.value);
+  }
+
+  private logInformation(password: string, charsetLength: number): void {
+    const round = (input: number) => Math.round(input * 100) / 100;
+    const ageOfUniverse = 4.3 * 10 ** 17;
+    const secondsInYear = 31540000;
+    let combinations = charsetLength ** password.length;
+    let secs = round(combinations / (2 * 10 ** 12));
+
+    console.log(`Your password uses a set of ${charsetLength.toString().blue} characters and has a length of ${password.length.toString().blue}.`);
+    console.log(`There are ${combinations.toString().cyan} possible combinations.`);
+    console.log(`It would take a supercomputer (10^12 passwords/s) ${secs.toString().red} seconds to crack it.`)
+    console.log(`This is equal to ${round(secs / secondsInYear).toString().red} years or ${round(secs / ageOfUniverse).toString().red} times the age of the universe.\n`);
   }
 }
