@@ -1,10 +1,15 @@
 # ts-pwgen
 Command-Line Password Generator in TypeScript
 
-## Install
+## Installation
 ```
 sudo npm install -g ts-pwgen
 ```
+
+## Good to know
+* It has a default password length of 30 characters
+* It uses lowercase/uppercase letters, numbers and special characters when you don't pass any arguments saying otherwise
+* You should try the `--verbose` flag to see how long it would take a supercomputer to crack your generated password
 
 ## Usage
 ```
@@ -77,31 +82,37 @@ ZKf/]e-unOP8YWPv4W@eYe*yL6{lk}
 N^)@rFD+1F-G!v%UZcxeV)FzIMfn]]
 ```
 
-### Only use lowercase letters
+### Use lowercase letters only
 `pwgen -a`
 ```
 jpgthoyjmwumnoiroqynbhywoxhjnb
 ```
 
-### Only use uppercase letters
+### Use uppercase letters only
 `pwgen -A`
 ```
 AUAYYZJXWMIKMPJGHVQSPKUGPUFTCU
 ```
 
-### Only use numbers
+### Use numbers only
 `pwgen -n`
 ```
 647681199479680747570268980919
 ```
 
-### Only use special characters
+### Use special characters only
 `pwgen -s`
 ```
 =<}(<>}/,_.*@:|<*++"=)^;^:|)_+
 ```
 
-### Use letters and numbers
+### Use latin1 characters only
+`pwgen -x`
+```
+»°ÃÑîÍí¢ÆñÓò¾ÅÚïñ°ÕÔÏúñ¼Ï´¦îÓê
+```
+
+### Use letters and numbers (combine charsets)
 `pwgen -aAn`
 ```
 APlngye5IiXTu0z7NETffgS67bOX48
