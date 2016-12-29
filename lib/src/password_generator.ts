@@ -44,9 +44,18 @@ export class PasswordGenerator {
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
-  generate(verbose: boolean = false): GeneratedPassword {
+  private containsFromCharset(password: string, charset: string[]): boolean {
+    for (let char of charset) {
+      if (password.indexOf(char) === -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  generate(): GeneratedPassword {
     let list: string[] = [];
-    let password: string = '';
+    let password: string = '';    
 
     if (this.options.lowercaseLetters) {
       list = list.concat(PasswordGenerator.lowercaseLettersList);
@@ -64,6 +73,13 @@ export class PasswordGenerator {
       list = list.concat(PasswordGenerator.latin1List);
     }
 
+    if (this.options.parts.length <= 0) {
+      return {
+        value: '',
+        charsetLength: list.length
+      }
+    }
+
     for (let partIndex = 0; partIndex < this.options.parts.amount; partIndex++) {
       let part = '';
 
@@ -77,7 +93,17 @@ export class PasswordGenerator {
       }
 
       password += part;
-    }    
+    }
+
+    if (
+      (this.options.lowercaseLetters && !/[a-z]/.test(password))
+      || (this.options.uppercaseLetters && !/[A-Z]/.test(password))
+      || (this.options.numbers && !/[0-9]/.test(password))
+      || (this.options.specialCharacters && this.containsFromCharset(password, PasswordGenerator.specialCharactersList))
+      || (this.options.latin1Characters && this.containsFromCharset(password, PasswordGenerator.latin1List))
+    ) {
+      return this.generate();
+    }
 
     return {
       value: password,

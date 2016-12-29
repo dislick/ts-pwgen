@@ -64,6 +64,29 @@ describe('PasswordGenerator', () => {
       let expectRegex = /[a-zA-Z0-9]{10}![a-zA-Z0-9]{10}![a-zA-Z0-9]{10}/;
       expect(expectRegex.test(pwgen.generate().value)).to.be.true;
     });
+
+    it('should include at least one letter from each specified charset', () => {
+      let pwgen = new PasswordGenerator();
+      pwgen.options = {
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: false,
+        latin1Characters: false,
+        parts: {
+          amount: 1,
+          length: 3,
+          delimiter: '-'
+        }
+      }
+
+      for (let i = 0; i < 1000; i++) {
+        let password = pwgen.generate().value;
+        expect(/[a-z]/.test(password), 'Did not include a lowercase letter').to.be.true;
+        expect(/[A-Z]/.test(password), 'Did not include an uppercase letter').to.be.true;
+        expect(/[0-9]/.test(password), 'Did not include a number').to.be.true;
+      }
+    });
   });
 
   describe('generateMultiple()', () => {
