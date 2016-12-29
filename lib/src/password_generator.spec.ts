@@ -65,5 +65,25 @@ describe('PasswordGenerator', () => {
       expect(expectRegex.test(pwgen.generate())).to.be.true;
     });
   });
+
+  describe('generateMultiple()', () => {
+    it('should be able to generate 1 password', () => {
+      let pwgen = new PasswordGenerator();
+      let output = pwgen.generateMultiple(1);
+      expect(output).to.have.length(1);
+    });
+
+    it('should be able to generate 3 passwords', () => {
+      let pwgen = new PasswordGenerator();
+      let output = pwgen.generateMultiple(3);
+      expect(output).to.have.length(3);
+    });
+
+    it('should be able to generate 20 passwords', () => {
+      let pwgen = new PasswordGenerator();
+      let output = pwgen.generateMultiple(20);
+      expect(output).to.have.length(20);
+    });
+  });
 });
 

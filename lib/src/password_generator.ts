@@ -65,4 +65,14 @@ export class PasswordGenerator {
 
     return password;
   }
+
+  generateMultiple(amount: number): string[] {
+    let passwords: string[] = [];
+
+    for (let i = 0; i < amount; i++) {
+      passwords.push(this.generate());
+    }
+
+    return passwords;
+  }
 }
