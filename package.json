@@ -1,0 +1,27 @@
+{
+  "name": "ts-pwgen",
+  "version": "1.0.0",
+  "description": "A command line password generator in TypeScript",
+  "main": "lib/dest/main.js",
+  "bin": {
+    "pwgen": "./bin/pwgen"  
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "password",
+    "generator",
+    "typescript",
+    "passwordgenerator"
+  ],
+  "author": "Patrick Muff",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-mocha": "^3.0.1",
+    "gulp-typescript": "^3.1.3",
+    "typescript": "^2.1.4"
+  }
+}
