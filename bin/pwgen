@@ -2,7 +2,7 @@
 
 var PasswordGenerator = require('../lib/dest/password_generator.js').PasswordGenerator;
 var argv = require('yargs')
-  .usage('Usage: $0 [--length 10] [--parts 3] [--delimiter "-"]')
+  .usage('Usage: $0 [--length 10] [--parts 3] [--delimiter "-"] [--count 3] [-aAns]')
   .describe('p', 'Define how many parts there should be')
   .describe('l', 'Define the length of a part')
   .describe('d', 'Define the delimiter to use if there are multiple parts')
@@ -30,23 +30,14 @@ var argv = require('yargs')
 
 var pwgen = new PasswordGenerator();
 
-/**
- * Amount of parts: -p or --parts
- */
 if (argv.parts) {
   pwgen.options.parts.amount = argv.p || argv.parts;
 }
 
-/**
- * Length of parts: -l or --length
- */
 if (argv.length) {
   pwgen.options.parts.length = argv.l || argv.length;
 }
 
-/**
- * Delimiter: -d or --delimiter
- */
 if (argv.delimiter) {
   pwgen.options.parts.delimiter = argv.d || argv.delimiter;
 }
