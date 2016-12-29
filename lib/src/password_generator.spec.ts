@@ -8,25 +8,25 @@ describe('PasswordGenerator', () => {
     it('should be able to generate a password of length 0', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 0;
-      expect(pwgen.generate()).to.have.length(0);
+      expect(pwgen.generate().value).to.have.length(0);
     });
 
     it('should be able to generate a password of length 10', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 10;
-      expect(pwgen.generate()).to.have.length(10);
+      expect(pwgen.generate().value).to.have.length(10);
     });
 
     it('should be able to generate a password of length 20', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 20;
-      expect(pwgen.generate()).to.have.length(20);
+      expect(pwgen.generate().value).to.have.length(20);
     });
 
     it('should be able to generate a password of length 100', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 100;
-      expect(pwgen.generate()).to.have.length(100);
+      expect(pwgen.generate().value).to.have.length(100);
     });
 
     it('should be able to generate 2 parts of 5 with a dash delimiter', () => {
@@ -38,7 +38,7 @@ describe('PasswordGenerator', () => {
         delimiter: '-'
       };
       let expectRegex = /[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}/;
-      expect(expectRegex.test(pwgen.generate())).to.be.true;
+      expect(expectRegex.test(pwgen.generate().value)).to.be.true;
     });
 
     it('should be able to generate 3 parts of 6 with a dash delimiter', () => {
@@ -50,7 +50,7 @@ describe('PasswordGenerator', () => {
         delimiter: '-'
       };
       let expectRegex = /[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}/;
-      expect(expectRegex.test(pwgen.generate())).to.be.true;
+      expect(expectRegex.test(pwgen.generate().value)).to.be.true;
     });
 
     it('should be able to generate 3 parts of 10 with a ! delimiter', () => {
@@ -62,7 +62,7 @@ describe('PasswordGenerator', () => {
         delimiter: '!'
       };
       let expectRegex = /[a-zA-Z0-9]{10}![a-zA-Z0-9]{10}![a-zA-Z0-9]{10}/;
-      expect(expectRegex.test(pwgen.generate())).to.be.true;
+      expect(expectRegex.test(pwgen.generate().value)).to.be.true;
     });
   });
 

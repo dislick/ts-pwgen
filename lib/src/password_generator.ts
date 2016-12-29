@@ -1,3 +1,7 @@
+/// <reference path="../../typings/index.d.ts" />
+
+import 'colors';
+
 interface PasswordGeneratorOptions {
   lowercaseLetters: boolean;
   uppercaseLetters: boolean;
@@ -9,6 +13,12 @@ interface PasswordGeneratorOptions {
     length: number;
     delimiter: string;
   }
+}
+
+interface GeneratedPassword {
+  value: string;
+  charsetLength: number;
+  differentCharacters?: number;
 }
 
 const defaultOptions: PasswordGeneratorOptions = {
@@ -34,7 +44,7 @@ export class PasswordGenerator {
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
-  generate(verbose: boolean = false): string {
+  generate(verbose: boolean = false): GeneratedPassword {
     let list: string[] = [];
     let password: string = '';
 
@@ -67,32 +77,38 @@ export class PasswordGenerator {
       }
 
       password += part;
-    }
+    }    
 
-    // Display password strength
-    if (verbose) {
-      const round = (input: number) => Math.round(input * 100) / 100;
-      const ageOfUniverse = 4.3 * 10 ** 17;
-      const secondsInYear = 31540000;
-      let combinations = list.length ** password.length;
-      let secs = round(combinations / (2 * 10 ** 12));
-
-      console.log(`Your password uses a set of ${list.length} characters and has a length of ${password.length}.`);
-      console.log(`There are ${combinations} possible combinations.`);
-      console.log(`It would take a supercomputer (10^12 passwords/s) ${secs} seconds to crack it.`)
-      console.log(`This is equal to ${round(secs / secondsInYear)} years or ${round(secs / ageOfUniverse)} times the current age of the universe.\n`);
-    }
-
-    return password;
+    return {
+      value: password,
+      charsetLength: list.length
+    };
   }
 
-  generateMultiple(amount: number, verbose: boolean = true): string[] {
-    let passwords: string[] = [];
+  generateMultiple(amount: number, verbose: boolean = false): string[] {
+    let passwords: GeneratedPassword[] = [];
 
     for (let i = 0; i < amount; i++) {
-      passwords.push(this.generate(verbose));
+      passwords.push(this.generate());
     }
 
-    return passwords;
+    if (verbose) {
+      this.logInformation(passwords[0].value, passwords[0].charsetLength);
+    }
+
+    return passwords.map(pw => pw.value);
+  }
+
+  private logInformation(password: string, charsetLength: number): void {
+    const round = (input: number) => Math.round(input * 100) / 100;
+    const ageOfUniverse = 4.3 * 10 ** 17;
+    const secondsInYear = 31540000;
+    let combinations = charsetLength ** password.length;
+    let secs = round(combinations / (2 * 10 ** 12));
+
+    console.log(`Your password uses a set of ${charsetLength.toString().blue} characters and has a length of ${password.length.toString().blue}.`);
+    console.log(`There are ${combinations.toString().cyan} possible combinations.`);
+    console.log(`It would take a supercomputer (10^12 passwords/s) ${secs.toString().red} seconds to crack it.`)
+    console.log(`This is equal to ${round(secs / secondsInYear).toString().red} years or ${round(secs / ageOfUniverse).toString().red} times the age of the universe.\n`);
   }
 }
