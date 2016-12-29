@@ -82,9 +82,9 @@ describe('PasswordGenerator', () => {
 
       for (let i = 0; i < 1000; i++) {
         let password = pwgen.generate().value;
-        expect(/[a-z]/.test(password), 'Did not include a lowercase letter').to.be.true;
-        expect(/[A-Z]/.test(password), 'Did not include an uppercase letter').to.be.true;
-        expect(/[0-9]/.test(password), 'Did not include a number').to.be.true;
+        expect(/[a-z]/.test(password), `Did not include a lowercase letter, ${password}`).to.be.true;
+        expect(/[A-Z]/.test(password), `Did not include an uppercase letter, ${password}`).to.be.true;
+        expect(/[0-9]/.test(password), `Did not include a number, ${password}`).to.be.true;
       }
     });
   });

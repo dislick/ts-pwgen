@@ -45,12 +45,13 @@ export class PasswordGenerator {
   }
 
   private containsFromCharset(password: string, charset: string[]): boolean {
+    let contains = false;
     for (let char of charset) {
-      if (password.indexOf(char) === -1) {
-        return false;
+      if (password.indexOf(char) !== -1) {
+        contains = true;
       }
     }
-    return true;
+    return contains;
   }
 
   generate(): GeneratedPassword {
@@ -99,8 +100,8 @@ export class PasswordGenerator {
       (this.options.lowercaseLetters && !/[a-z]/.test(password))
       || (this.options.uppercaseLetters && !/[A-Z]/.test(password))
       || (this.options.numbers && !/[0-9]/.test(password))
-      || (this.options.specialCharacters && this.containsFromCharset(password, PasswordGenerator.specialCharactersList))
-      || (this.options.latin1Characters && this.containsFromCharset(password, PasswordGenerator.latin1List))
+      || (this.options.specialCharacters && !this.containsFromCharset(password, PasswordGenerator.specialCharactersList))
+      || (this.options.latin1Characters && !this.containsFromCharset(password, PasswordGenerator.latin1List))
     ) {
       return this.generate();
     }
