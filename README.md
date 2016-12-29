@@ -41,10 +41,10 @@ pwgen | pbcopy
 -TI)!9~GmQm~a=jj
 ```
 
-### Parts with Delimiter
-`pwgen -p 3 -l 5 -d "-"`
+### Parts with Delimiter (lowercase and numbers only)
+`pwgen --parts=3 --length=5 --delimiter="-" -an`
 ```
-3caL#-qpkcm-e0/oH
+iic2d-xrvad-9bnuz
 ```
 
 ### Create multiple passwords
