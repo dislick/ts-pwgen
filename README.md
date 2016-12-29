@@ -35,13 +35,13 @@ pwgen | pbcopy
 
 
 ## Examples
-### Custom Length
-`pwgen -l 16`
+### Custom length
+`pwgen -l 16` or `pwgen --length 16` or `pwgen --length=16`
 ```
 -TI)!9~GmQm~a=jj
 ```
 
-### Parts with Delimiter (lowercase and numbers only)
+### Parts with delimiter (lowercase and numbers only)
 `pwgen --parts=3 --length=5 --delimiter="-" -an`
 ```
 iic2d-xrvad-9bnuz
