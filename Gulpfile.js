@@ -5,7 +5,7 @@ var mocha = require('gulp-mocha');
 
 var config = {
   src: [
-    'lib/src/**/*.ts',    
+    'lib/src/**/*.ts',
   ],
   dest: 'lib/dest',
 };

@@ -4,7 +4,7 @@
   "description": "A command line password generator in TypeScript",
   "main": "lib/dest/main.js",
   "bin": {
-    "pwgen": "./bin/pwgen"  
+    "pwgen": "./bin/pwgen"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,6 +18,7 @@
   "author": "Patrick Muff",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-mocha": "^3.0.1",
