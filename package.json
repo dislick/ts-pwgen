@@ -18,6 +18,10 @@
   ],
   "author": "Patrick Muff",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dislick/ts-pwgen"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
