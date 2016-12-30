@@ -26,6 +26,10 @@ export class PasswordGenerator {
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
+  /**
+   * Checks if a password string contains at least one character from a string
+   * array.
+   */
   private containsFromCharset(password: string, charset: string[]): boolean {
     for (let char of charset) {
       if (password.indexOf(char) !== -1) {
@@ -35,6 +39,11 @@ export class PasswordGenerator {
     return false;
   }
 
+  /**
+   * Generates a password based on this.options. This method will recursively
+   * call itself if the password does not contain at least one character from
+   * each specified charset.
+   */
   generate(): GeneratedPassword {
     let list: string[] = [];
     let password: string = '';    
@@ -93,6 +102,9 @@ export class PasswordGenerator {
     }
   }
 
+  /**
+   * Generates any positive amount of passwords using this.generate().
+   */
   generateMultiple(amount: number, verbose: boolean = false): string[] {
     let passwords: GeneratedPassword[] = [];
 
@@ -107,6 +119,9 @@ export class PasswordGenerator {
     return passwords.map(pw => pw.value);
   }
 
+  /**
+   * Log information about the security of the current password options.
+   */
   private logInformation(password: string, charsetLength: number): void {
     const round = (input: number) => Math.round(input * 100) / 100;
     const ageOfUniverse = 4.3 * 10 ** 17;
