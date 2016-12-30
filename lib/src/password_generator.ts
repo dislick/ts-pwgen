@@ -1,25 +1,7 @@
 /// <reference path="../../typings/index.d.ts" />
 
 import 'colors';
-
-interface PasswordGeneratorOptions {
-  lowercaseLetters: boolean;
-  uppercaseLetters: boolean;
-  numbers: boolean;
-  specialCharacters: boolean;
-  latin1Characters: boolean;
-  parts: {
-    amount: number;
-    length: number;
-    delimiter: string;
-  }
-}
-
-interface GeneratedPassword {
-  value: string;
-  charsetLength: number;
-  differentCharacters?: number;
-}
+import { PasswordGeneratorOptions, GeneratedPassword } from './password_generator.interface';
 
 const defaultOptions: PasswordGeneratorOptions = {
   lowercaseLetters: true,
