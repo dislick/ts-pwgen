@@ -3,13 +3,14 @@ Command-Line Password Generator in TypeScript
 
 ## Installation
 ```
-sudo npm install -g ts-pwgen
+npm install -g ts-pwgen
 ```
 
 ## Good to know
 * It has a default password length of 30 characters
 * It uses lowercase/uppercase letters, numbers and special characters when you don't pass any arguments saying otherwise
 * You should try the `--verbose` flag to see how long it would take a supercomputer to crack your generated password
+* Use `-k` if you don't like the copy-to-clipboard feature
 
 ## Usage
 ```
@@ -31,15 +32,10 @@ Options:
   -x, --latin1     Use latin1 characters                               [boolean]
   -v, --verbose    Verbose output, see how long it would take a supercomputer to
                    crack your generated password(s)  [boolean] [Standard: false]
+  -k               Do not copy the password to the clipboard
+                                                     [boolean] [Standard: false]
   -h, --help       Show help                                           [boolean]
 ```
-
-## Copy to clipboard
-### macOS
-```
-pwgen | pbcopy
-```
-
 
 ## Examples
 ### Custom length
@@ -64,12 +60,18 @@ The delimiter defaults to `-`.
 ### Show how long it would take a supercomputer to crack your password
 `pwgen -l 16 -v`
 ```
-Your password uses a set of 91 characters and has a length of 16.
-There are 2.211374397284394e+31 possible combinations.
-It would take a supercomputer (10^12 passwords/s) 11056871986421970000 seconds to crack it.
-This is equal to 350566645098.98 years or 25.71 times the age of the universe.
+Password length:       16
+Different characters:  91
+Possible combinations: 2.211374397284394e+31
 
-77T1X>HCuQ{:%brt
+Required time to crack (10^12 passwords/s)
+              Seconds: 11056871986421970000
+                Years: 350566645098.98
+  Age of the universe: 25.71
+
+a*aO)~}xv|4s+Z4*
+
+Password successfully copied to clipboard!
 ```
 
 ### Create multiple passwords
