@@ -142,6 +142,8 @@ export class PasswordGenerator {
     if (amount === 1) {
       console.log(passwords[0].value);
       chosenPassword = passwords[0].value;
+    } else if (noClipboard) {
+      passwords.forEach(pw => console.log(pw.value));
     } else {
       let answer = <PasswordAnswer>await inquirer.prompt([
         {

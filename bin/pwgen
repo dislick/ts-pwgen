@@ -21,7 +21,7 @@ var argv = require('yargs')
   .boolean('s')
   .boolean('x')
   .boolean('v').default('v', false)
-  .boolean('k')
+  .boolean('k').default('k', false)
   .default('c', 1)
   .alias('h', 'help')
   .alias('p', 'parts')
@@ -64,4 +64,4 @@ if (!argv.ascii && !argv.ASCII && !argv.numbers && !argv.special && !argv.latin1
   pwgen.options.latin1Characters = false;
 }
 
-pwgen.interactive(argv.count, argv.verbose, argv.noClipboard);
+pwgen.interactive(argv.count, argv.verbose, argv.k);
