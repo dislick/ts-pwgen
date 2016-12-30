@@ -1,7 +1,9 @@
 /// <reference path="../../typings/index.d.ts" />
 
 import 'colors';
-import { PasswordGeneratorOptions, GeneratedPassword } from './password_generator.interface';
+import * as inquirer from 'inquirer';
+import * as copyPaste from 'copy-paste';
+import { PasswordGeneratorOptions, GeneratedPassword }  from './password_generator.interface';
 import {
   latin1List,
   lowercaseLettersList,
@@ -9,6 +11,10 @@ import {
   specialCharactersList,
   uppercaseLettersList
 } from './charsets';
+
+interface PasswordAnswer extends inquirer.Answers {
+  password: string;
+}
 
 const defaultOptions: PasswordGeneratorOptions = {
   lowercaseLetters: true,
@@ -47,7 +53,7 @@ export class PasswordGenerator {
    */
   generate(): GeneratedPassword {
     let list: string[] = []; // This will hold all the characters that are going to be used
-    let password: string = '';    
+    let password: string = '';
 
     if (this.options.lowercaseLetters) {
       list = list.concat(lowercaseLettersList);
@@ -111,18 +117,46 @@ export class PasswordGenerator {
   /**
    * Generates any positive amount of passwords using this.generate().
    */
-  generateMultiple(amount: number, verbose: boolean = false): string[] {
+  generateMultiple(amount: number): GeneratedPassword[] {
     let passwords: GeneratedPassword[] = [];
-
     for (let i = 0; i < amount; i++) {
       passwords.push(this.generate());
     }
+    return passwords;
+  }
 
-    if (verbose) {
-      this.logInformation(passwords[0].value, passwords[0].charsetLength);
+  /**
+   * Interactively ask the user which password they would like if they ask for
+   * more than 1. Also copies it to the clipboard.
+   */
+  async interactive(amount: number, verbose: boolean = false) {
+    let passwords = this.generateMultiple(amount);
+    let chosenPassword: string;
+
+    if (amount <= 0) {
+      return;
     }
 
-    return passwords.map(pw => pw.value);
+    if (verbose) this.logInformation(passwords[0].value, passwords[0].charsetLength);
+
+    if (amount === 1) {
+      console.log(passwords[0].value);
+      chosenPassword = passwords[0].value;
+    } else {
+      let answer = <PasswordAnswer>await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'password',
+          message: 'Choose password:',
+          choices: passwords.map(pw => pw.value)
+        }
+      ]);
+      chosenPassword = answer.password;
+    }
+
+    copyPaste.copy(chosenPassword, () => {
+      console.log('\nPassword successfully copied to clipboard!');
+    });
   }
 
   /**

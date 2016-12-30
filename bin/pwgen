@@ -62,6 +62,4 @@ if (!argv.ascii && !argv.ASCII && !argv.numbers && !argv.special && !argv.latin1
   pwgen.options.latin1Characters = false;
 }
 
-pwgen.generateMultiple(argv.count, argv.verbose).map(function(password) {
-  console.log(password);
-});
+pwgen.interactive(argv.count, argv.verbose);
