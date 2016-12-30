@@ -129,7 +129,7 @@ export class PasswordGenerator {
    * Interactively ask the user which password they would like if they ask for
    * more than 1. Also copies it to the clipboard.
    */
-  async interactive(amount: number, verbose: boolean = false) {
+  async interactive(amount: number, verbose: boolean = false, noClipboard: boolean = false) {
     let passwords = this.generateMultiple(amount);
     let chosenPassword: string;
 
@@ -154,9 +154,11 @@ export class PasswordGenerator {
       chosenPassword = answer.password;
     }
 
-    copyPaste.copy(chosenPassword, () => {
-      console.log('\nPassword successfully copied to clipboard!'.gray);
-    });
+    if (!noClipboard) {
+      copyPaste.copy(chosenPassword, () => {
+        console.log('\nPassword successfully copied to clipboard!'.gray);
+      });  
+    }    
   }
 
   /**
