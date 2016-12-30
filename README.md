@@ -12,6 +12,9 @@ npm install -g ts-pwgen
 * You should try the `--verbose` flag to see how long it would take a supercomputer to crack your generated password
 * Use `-k` if you don't like the copy-to-clipboard feature
 
+## Demo
+![demo video](demo.gif)
+
 ## Usage
 ```
 pwgen --help
@@ -57,7 +60,7 @@ jhnxp-geehp-rtz2n-3m4vt
 ```
 The delimiter defaults to `-`.
 
-### Show how long it would take a supercomputer to crack your password
+### See how long it would take a supercomputer to crack your password
 `pwgen -l 16 -v`
 ```
 Password length:       16
