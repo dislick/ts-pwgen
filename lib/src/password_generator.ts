@@ -155,7 +155,7 @@ export class PasswordGenerator {
     }
 
     copyPaste.copy(chosenPassword, () => {
-      console.log('\nPassword successfully copied to clipboard!');
+      console.log('\nPassword successfully copied to clipboard!'.gray);
     });
   }
 
@@ -169,9 +169,12 @@ export class PasswordGenerator {
     const combinations = charsetLength ** password.length;
     const secs = round(combinations / (2 * 10 ** 12));
 
-    console.log(`Your password uses a set of ${charsetLength.toString().blue} characters and has a length of ${password.length.toString().blue}.`);
-    console.log(`There are ${combinations.toString().cyan} possible combinations.`);
-    console.log(`It would take a supercomputer (10^12 passwords/s) ${secs.toString().red} seconds to crack it.`)
-    console.log(`This is equal to ${round(secs / secondsInYear).toString().red} years or ${round(secs / ageOfUniverse).toString().red} times the age of the universe.\n`);
+    console.log(`Password length:       `.gray + password.length);
+    console.log(`Different characters:  `.gray + charsetLength);
+    console.log(`Possible combinations: `.gray + combinations);
+    console.log(`\nRequired time to crack (10^12 passwords/s)`.gray.underline);
+    console.log(`              Seconds: `.gray + secs);
+    console.log(`                Years: `.gray + round(secs / secondsInYear));
+    console.log(`  Age of the universe: `.gray + round(secs / ageOfUniverse), '\n');
   }
 }
