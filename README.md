@@ -13,7 +13,7 @@ npm install -g ts-pwgen
 * Use `-k` if you don't like the copy-to-clipboard feature
 
 ## Demo
-![demo video](demo.gif)
+![demo video](pwgendemo.gif)
 
 ## Usage
 ```
