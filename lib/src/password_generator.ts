@@ -2,6 +2,13 @@
 
 import 'colors';
 import { PasswordGeneratorOptions, GeneratedPassword } from './password_generator.interface';
+import {
+  latin1List,
+  lowercaseLettersList,
+  numbersList,
+  specialCharactersList,
+  uppercaseLettersList
+} from './charsets';
 
 const defaultOptions: PasswordGeneratorOptions = {
   lowercaseLetters: true,
@@ -17,12 +24,6 @@ const defaultOptions: PasswordGeneratorOptions = {
 }
 
 export class PasswordGenerator {
-  private static lowercaseLettersList: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  private static uppercaseLettersList: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  private static numbersList: string[] = '0123456789'.split('');
-  private static specialCharactersList: string[] = '!"#%&()*+,-./:;<=>?@[\]^_`{|}~'.split('');
-  private static latin1List: string[] = '¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ'.split('');
-
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
@@ -49,19 +50,19 @@ export class PasswordGenerator {
     let password: string = '';    
 
     if (this.options.lowercaseLetters) {
-      list = list.concat(PasswordGenerator.lowercaseLettersList);
+      list = list.concat(lowercaseLettersList);
     }
     if (this.options.uppercaseLetters) {
-      list = list.concat(PasswordGenerator.uppercaseLettersList);
+      list = list.concat(uppercaseLettersList);
     }
     if (this.options.numbers) {
-      list = list.concat(PasswordGenerator.numbersList);
+      list = list.concat(numbersList);
     }
     if (this.options.specialCharacters) {
-      list = list.concat(PasswordGenerator.specialCharactersList);
+      list = list.concat(specialCharactersList);
     }
     if (this.options.latin1Characters) {
-      list = list.concat(PasswordGenerator.latin1List);
+      list = list.concat(latin1List);
     }
 
     if (this.options.parts.length <= 0) {
@@ -71,27 +72,31 @@ export class PasswordGenerator {
       }
     }
 
-    for (let partIndex = 0; partIndex < this.options.parts.amount; partIndex++) {
+    let { amount, length, delimiter } = this.options.parts;
+    for (let partIndex = 0; partIndex < amount; partIndex++) {
       let part = '';
 
-      while (part.length < this.options.parts.length) {
+      while (part.length < length) {
         let randomIndex = Math.floor(Math.random() * list.length);
         part += list[randomIndex];
       }
 
-      if (partIndex !== this.options.parts.amount - 1) {
-        part += this.options.parts.delimiter;
+      // If this is not the last part, add the delimiter.
+      if (partIndex !== amount - 1) {
+        part += delimiter;
       }
 
       password += part;
     }
 
+    // Make sure that at least one character from each used charset is present,
+    // otherwise call this method again.
     if (
       (this.options.lowercaseLetters && !/[a-z]/.test(password))
       || (this.options.uppercaseLetters && !/[A-Z]/.test(password))
       || (this.options.numbers && !/[0-9]/.test(password))
-      || (this.options.specialCharacters && !this.containsFromCharset(password, PasswordGenerator.specialCharactersList))
-      || (this.options.latin1Characters && !this.containsFromCharset(password, PasswordGenerator.latin1List))
+      || (this.options.specialCharacters && !this.containsFromCharset(password, specialCharactersList))
+      || (this.options.latin1Characters && !this.containsFromCharset(password, latin1List))
     ) {
       return this.generate();
     }
