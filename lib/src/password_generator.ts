@@ -46,7 +46,7 @@ export class PasswordGenerator {
    * each specified charset.
    */
   generate(): GeneratedPassword {
-    let list: string[] = [];
+    let list: string[] = []; // This will hold all the characters that are going to be used
     let password: string = '';    
 
     if (this.options.lowercaseLetters) {
@@ -65,6 +65,7 @@ export class PasswordGenerator {
       list = list.concat(latin1List);
     }
 
+    // If the parts have a length of 0 or below, abort.
     if (this.options.parts.length <= 0) {
       return {
         value: '',
