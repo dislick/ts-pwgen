@@ -27,13 +27,12 @@ export class PasswordGenerator {
   }
 
   private containsFromCharset(password: string, charset: string[]): boolean {
-    let contains = false;
     for (let char of charset) {
       if (password.indexOf(char) !== -1) {
-        contains = true;
+        return true;
       }
     }
-    return contains;
+    return false;
   }
 
   generate(): GeneratedPassword {
