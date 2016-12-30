@@ -19,7 +19,7 @@ gulp.task('typescript', ['clean'], function() {
   return gulp.src(config.src)
     .pipe(typescript({
       module: 'commonjs',
-      target: 'ES5',
+      target: 'ES6',
       typescript: require('typescript')
     }))
     .pipe(gulp.dest(config.dest));

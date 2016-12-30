@@ -1,24 +1,19 @@
 /// <reference path="../../typings/index.d.ts" />
 
 import 'colors';
+import * as inquirer from 'inquirer';
+import * as copyPaste from 'copy-paste';
+import { PasswordGeneratorOptions, GeneratedPassword }  from './password_generator.interface';
+import {
+  latin1List,
+  lowercaseLettersList,
+  numbersList,
+  specialCharactersList,
+  uppercaseLettersList
+} from './charsets';
 
-interface PasswordGeneratorOptions {
-  lowercaseLetters: boolean;
-  uppercaseLetters: boolean;
-  numbers: boolean;
-  specialCharacters: boolean;
-  latin1Characters: boolean;
-  parts: {
-    amount: number;
-    length: number;
-    delimiter: string;
-  }
-}
-
-interface GeneratedPassword {
-  value: string;
-  charsetLength: number;
-  differentCharacters?: number;
+interface PasswordAnswer extends inquirer.Answers {
+  password: string;
 }
 
 const defaultOptions: PasswordGeneratorOptions = {
@@ -35,45 +30,48 @@ const defaultOptions: PasswordGeneratorOptions = {
 }
 
 export class PasswordGenerator {
-  private static lowercaseLettersList: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  private static uppercaseLettersList: string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  private static numbersList: string[] = '0123456789'.split('');
-  private static specialCharactersList: string[] = '!"#%&()*+,-./:;<=>?@[\]^_`{|}~'.split('');
-  private static latin1List: string[] = '¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ'.split('');
-
   constructor(public options: PasswordGeneratorOptions = defaultOptions) {
   }
 
+  /**
+   * Checks if a password string contains at least one character from a string
+   * array.
+   */
   private containsFromCharset(password: string, charset: string[]): boolean {
-    let contains = false;
     for (let char of charset) {
       if (password.indexOf(char) !== -1) {
-        contains = true;
+        return true;
       }
     }
-    return contains;
+    return false;
   }
 
+  /**
+   * Generates a password based on this.options. This method will recursively
+   * call itself if the password does not contain at least one character from
+   * each specified charset.
+   */
   generate(): GeneratedPassword {
-    let list: string[] = [];
-    let password: string = '';    
+    let list: string[] = []; // This will hold all the characters that are going to be used
+    let password: string = '';
 
     if (this.options.lowercaseLetters) {
-      list = list.concat(PasswordGenerator.lowercaseLettersList);
+      list = list.concat(lowercaseLettersList);
     }
     if (this.options.uppercaseLetters) {
-      list = list.concat(PasswordGenerator.uppercaseLettersList);
+      list = list.concat(uppercaseLettersList);
     }
     if (this.options.numbers) {
-      list = list.concat(PasswordGenerator.numbersList);
+      list = list.concat(numbersList);
     }
     if (this.options.specialCharacters) {
-      list = list.concat(PasswordGenerator.specialCharactersList);
+      list = list.concat(specialCharactersList);
     }
     if (this.options.latin1Characters) {
-      list = list.concat(PasswordGenerator.latin1List);
+      list = list.concat(latin1List);
     }
 
+    // If the parts have a length of 0 or below, abort.
     if (this.options.parts.length <= 0) {
       return {
         value: '',
@@ -81,27 +79,31 @@ export class PasswordGenerator {
       }
     }
 
-    for (let partIndex = 0; partIndex < this.options.parts.amount; partIndex++) {
+    let { amount, length, delimiter } = this.options.parts;
+    for (let partIndex = 0; partIndex < amount; partIndex++) {
       let part = '';
 
-      while (part.length < this.options.parts.length) {
+      while (part.length < length) {
         let randomIndex = Math.floor(Math.random() * list.length);
         part += list[randomIndex];
       }
 
-      if (partIndex !== this.options.parts.amount - 1) {
-        part += this.options.parts.delimiter;
+      // If this is not the last part, add the delimiter.
+      if (partIndex !== amount - 1) {
+        part += delimiter;
       }
 
       password += part;
     }
 
+    // Make sure that at least one character from each used charset is present,
+    // otherwise call this method again.
     if (
       (this.options.lowercaseLetters && !/[a-z]/.test(password))
       || (this.options.uppercaseLetters && !/[A-Z]/.test(password))
       || (this.options.numbers && !/[0-9]/.test(password))
-      || (this.options.specialCharacters && !this.containsFromCharset(password, PasswordGenerator.specialCharactersList))
-      || (this.options.latin1Characters && !this.containsFromCharset(password, PasswordGenerator.latin1List))
+      || (this.options.specialCharacters && !this.containsFromCharset(password, specialCharactersList))
+      || (this.options.latin1Characters && !this.containsFromCharset(password, latin1List))
     ) {
       return this.generate();
     }
@@ -112,20 +114,58 @@ export class PasswordGenerator {
     }
   }
 
-  generateMultiple(amount: number, verbose: boolean = false): string[] {
+  /**
+   * Generates any positive amount of passwords using this.generate().
+   */
+  generateMultiple(amount: number): GeneratedPassword[] {
     let passwords: GeneratedPassword[] = [];
-
     for (let i = 0; i < amount; i++) {
       passwords.push(this.generate());
     }
-
-    if (verbose) {
-      this.logInformation(passwords[0].value, passwords[0].charsetLength);
-    }
-
-    return passwords.map(pw => pw.value);
+    return passwords;
   }
 
+  /**
+   * Interactively ask the user which password they would like if they ask for
+   * more than 1. Also copies it to the clipboard.
+   */
+  async interactive(amount: number, verbose: boolean = false, noClipboard: boolean = false) {
+    let passwords = this.generateMultiple(amount);
+    let chosenPassword: string;
+
+    if (amount <= 0) {
+      return;
+    }
+
+    if (verbose) this.logInformation(passwords[0].value, passwords[0].charsetLength);
+
+    if (amount === 1) {
+      console.log(passwords[0].value);
+      chosenPassword = passwords[0].value;
+    } else if (noClipboard) {
+      passwords.forEach(pw => console.log(pw.value));
+    } else {
+      let answer = <PasswordAnswer>await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'password',
+          message: 'Choose password:',
+          choices: passwords.map(pw => pw.value)
+        }
+      ]);
+      chosenPassword = answer.password;
+    }
+
+    if (!noClipboard) {
+      copyPaste.copy(chosenPassword, () => {
+        console.log('\nPassword successfully copied to clipboard!'.gray);
+      });  
+    }    
+  }
+
+  /**
+   * Log information about the security of the current password options.
+   */
   private logInformation(password: string, charsetLength: number): void {
     const round = (input: number) => Math.round(input * 100) / 100;
     const ageOfUniverse = 4.3 * 10 ** 17;
@@ -133,9 +173,12 @@ export class PasswordGenerator {
     const combinations = charsetLength ** password.length;
     const secs = round(combinations / (2 * 10 ** 12));
 
-    console.log(`Your password uses a set of ${charsetLength.toString().blue} characters and has a length of ${password.length.toString().blue}.`);
-    console.log(`There are ${combinations.toString().cyan} possible combinations.`);
-    console.log(`It would take a supercomputer (10^12 passwords/s) ${secs.toString().red} seconds to crack it.`)
-    console.log(`This is equal to ${round(secs / secondsInYear).toString().red} years or ${round(secs / ageOfUniverse).toString().red} times the age of the universe.\n`);
+    console.log(`Password length:       `.gray + password.length);
+    console.log(`Different characters:  `.gray + charsetLength);
+    console.log(`Possible combinations: `.gray + combinations);
+    console.log(`\nRequired time to crack (10^12 passwords/s)`.gray.underline);
+    console.log(`              Seconds: `.gray + secs);
+    console.log(`                Years: `.gray + round(secs / secondsInYear));
+    console.log(`  Age of the universe: `.gray + round(secs / ageOfUniverse), '\n');
   }
 }

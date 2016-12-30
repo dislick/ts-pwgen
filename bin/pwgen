@@ -13,6 +13,7 @@ var argv = require('yargs')
   .describe('s', 'Use special characters')
   .describe('x', 'Use latin1 characters')
   .describe('v', 'Verbose output, see how long it would take a supercomputer to crack your generated password(s)')
+  .describe('k', 'Do not copy the password to the clipboard')
   .help('h')
   .boolean('a')
   .boolean('A')
@@ -20,6 +21,7 @@ var argv = require('yargs')
   .boolean('s')
   .boolean('x')
   .boolean('v').default('v', false)
+  .boolean('k').default('k', false)
   .default('c', 1)
   .alias('h', 'help')
   .alias('p', 'parts')
@@ -62,6 +64,4 @@ if (!argv.ascii && !argv.ASCII && !argv.numbers && !argv.special && !argv.latin1
   pwgen.options.latin1Characters = false;
 }
 
-pwgen.generateMultiple(argv.count, argv.verbose).map(function(password) {
-  console.log(password);
-});
+pwgen.interactive(argv.count, argv.verbose, argv.k);
