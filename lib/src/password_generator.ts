@@ -47,6 +47,19 @@ export class PasswordGenerator {
   }
 
   /**
+   * Count how many charsets are being used in the current configuration.
+   */
+  countActiveCharsets(): number {
+    return [
+      this.options.lowercaseLetters,
+      this.options.uppercaseLetters,
+      this.options.numbers,
+      this.options.specialCharacters,
+      this.options.latin1Characters
+    ].reduce((prev, curr) => prev += Number(curr), 0);
+  }
+
+  /**
    * Generates a password based on this.options. This method will recursively
    * call itself if the password does not contain at least one character from
    * each specified charset.
@@ -54,6 +67,10 @@ export class PasswordGenerator {
   generate(): GeneratedPassword {
     let list: string[] = []; // This will hold all the characters that are going to be used
     let password: string = '';
+
+    if (this.options.parts.length < this.countActiveCharsets()) {
+      throw new Error('Cannot generate a password with the current configuration');
+    }
 
     if (this.options.lowercaseLetters) {
       list = list.concat(lowercaseLettersList);
@@ -130,8 +147,14 @@ export class PasswordGenerator {
    * more than 1. Also copies it to the clipboard.
    */
   async interactive(amount: number, verbose: boolean = false, noClipboard: boolean = false) {
-    let passwords = this.generateMultiple(amount);
+    let passwords: GeneratedPassword[];
     let chosenPassword: string;
+
+    try {
+      passwords = this.generateMultiple(amount);
+    } catch (error) {
+      return console.log(error.message);
+    }
 
     if (amount <= 0) {
       return;
