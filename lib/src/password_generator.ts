@@ -47,6 +47,19 @@ export class PasswordGenerator {
   }
 
   /**
+   * Count how many charsets are being used in the current configuration.
+   */
+  countActiveCharsets(): number {
+    return [
+      this.options.lowercaseLetters,
+      this.options.uppercaseLetters,
+      this.options.numbers,
+      this.options.specialCharacters,
+      this.options.latin1Characters
+    ].reduce((prev, curr) => prev += Number(curr), 0);
+  }
+
+  /**
    * Generates a password based on this.options. This method will recursively
    * call itself if the password does not contain at least one character from
    * each specified charset.
