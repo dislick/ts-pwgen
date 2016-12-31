@@ -1,3 +1,5 @@
+import { Answers } from 'inquirer';
+
 export interface PasswordGeneratorOptions {
   lowercaseLetters: boolean;
   uppercaseLetters: boolean;
@@ -15,4 +17,8 @@ export interface GeneratedPassword {
   value: string;
   charsetLength: number;
   differentCharacters?: number;
+}
+
+export interface PasswordAnswer extends Answers {
+  password: string;
 }

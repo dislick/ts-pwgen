@@ -3,18 +3,8 @@
 import 'colors';
 import * as inquirer from 'inquirer';
 import * as copyPaste from 'copy-paste';
-import { PasswordGeneratorOptions, GeneratedPassword }  from './password_generator.interface';
-import {
-  latin1List,
-  lowercaseLettersList,
-  numbersList,
-  specialCharactersList,
-  uppercaseLettersList
-} from './charsets';
-
-interface PasswordAnswer extends inquirer.Answers {
-  password: string;
-}
+import { PasswordGeneratorOptions, GeneratedPassword, PasswordAnswer }  from './password_generator.interface';
+import { latin1List, lowercaseLettersList, numbersList, specialCharactersList, uppercaseLettersList } from './charsets';
 
 const defaultOptions: PasswordGeneratorOptions = {
   lowercaseLetters: true,
@@ -56,7 +46,7 @@ export class PasswordGenerator {
       this.options.numbers,
       this.options.specialCharacters,
       this.options.latin1Characters
-    ].reduce((prev, curr) => prev += Number(curr), 0);
+    ].reduce((prev, curr) => prev += +curr, 0);
   }
 
   /**

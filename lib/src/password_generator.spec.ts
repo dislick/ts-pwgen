@@ -5,10 +5,12 @@ import { PasswordGenerator } from './password_generator';
 
 describe('PasswordGenerator', () => {
   describe('generate()', () => {
-    it('should be able to generate a password of length 0', () => {
+    it('should throw an error when asking for a password of length 0', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 0;
-      expect(pwgen.generate().value).to.have.length(0);
+      expect(() => {
+        pwgen.generate();
+      }).to.throw();
     });
 
     it('should be able to generate a password of length 10', () => {
