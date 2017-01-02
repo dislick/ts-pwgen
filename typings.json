@@ -6,6 +6,7 @@
   },
   "globalDependencies": {
     "colors": "registry:dt/colors#0.6.0-1+20160921151315",
-    "mocha": "registry:dt/mocha#2.2.5+20161221010438"
+    "mocha": "registry:dt/mocha#2.2.5+20161221010438",
+    "node": "registry:dt/node#6.0.0+20161229171858"
   }
 }
