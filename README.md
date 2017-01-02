@@ -9,6 +9,7 @@ npm install -g ts-pwgen
 ## Good to know
 * It has a default password length of 30 characters
 * It uses lowercase/uppercase letters, numbers and special characters when you don't pass any arguments saying otherwise
+* It uses [`crypto.randomBytes()`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) instead of `Math.random()`.
 * You should try the `--verbose` flag to see how long it would take a supercomputer to crack your generated password
 * Use `-k` if you don't like the copy-to-clipboard feature
 
