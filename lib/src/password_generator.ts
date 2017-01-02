@@ -172,8 +172,11 @@ export class PasswordGenerator {
     if (!noClipboard) {
       copyPaste.copy(chosenPassword, () => {
         console.log('\nPassword successfully copied to clipboard!'.gray);
+        process.exit(0);
       });  
-    }    
+    } else {
+      process.exit(0);
+    }
   }
 
   /**
