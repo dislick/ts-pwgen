@@ -177,6 +177,19 @@ describe('PasswordGenerator', () => {
       });
       expect(pwgen.countActiveCharsets()).to.be.equal(5);
     });
-  })
+  });
+
+  describe('#random()', () => {
+    it('should average at about 0.5', () => {
+      let pwgen = new PasswordGenerator();
+
+      let all = [];
+      for (let i = 0; i < 10000; i++) {
+        all.push(pwgen.random());
+      }
+      let average = all.reduce((prev, curr) => curr += prev, 0) / all.length;
+      expect(average).to.be.approximately(0.5, 0.01);
+    });
+  });
 });
 

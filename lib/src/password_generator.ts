@@ -58,7 +58,7 @@ export class PasswordGenerator {
   /**
    * Generate a cryptographically more secure random number than Math.random().
    */
-  private random(): number {
+  random(): number {
     // https://en.wikipedia.org/wiki/Double-precision_floating-point_format#IEEE_754_double-precision_binary_floating-point_format:_binary64
     let mantissa = crypto.randomBytes(6).toString('hex') + '0';
     let hexRepresentation = '3ff' + mantissa;
