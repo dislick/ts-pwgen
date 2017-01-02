@@ -89,6 +89,36 @@ describe('PasswordGenerator', () => {
         expect(/[0-9]/.test(password), `Did not include a number, ${password}`).to.be.true;
       }
     });
+
+    it('should throw an error if the length is smaller than the amount of charsets', () => {
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 1, length: 3, delimiter: '-' }
+      });
+      expect(() => {
+        pwgen.generate();
+      }).to.throw();
+    });
+
+    it('should not throw an error if the length is smaller than the amount of charsets but there are enough parts', () => {
+      // 2 parts with length 2 and a 1 char delimiter equals in a total length
+      // of 5, so it should be fine.
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 2, length: 2, delimiter: '-' }
+      });
+      expect(() => {
+        pwgen.generate();
+      }).not.to.throw();
+    });
   });
 
   describe('generateMultiple()', () => {
