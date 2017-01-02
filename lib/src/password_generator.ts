@@ -4,7 +4,7 @@ import 'colors';
 import * as inquirer from 'inquirer';
 import * as copyPaste from 'copy-paste';
 import * as crypto from 'crypto';
-import { PasswordGeneratorOptions, GeneratedPassword, PasswordAnswer }  from './password_generator.interface';
+import { PasswordGeneratorOptions, GeneratedPassword, PasswordAnswer } from './password_generator.interface';
 import { latin1List, lowercaseLettersList, numbersList, specialCharactersList, uppercaseLettersList } from './charsets';
 
 const defaultOptions: PasswordGeneratorOptions = {
@@ -55,13 +55,14 @@ export class PasswordGenerator {
     return amount * length + amount * delimiter.length;
   }
 
+  /**
+   * Generate a cryptographically more secure random number than Math.random().
+   */
   private random(): number {
-    let rand = crypto.randomBytes(32).readUInt32LE(0);
-    if (rand === 0) {
-        return 0;
-    }
-    rand /= 10 ** (Math.floor(Math.log10(Math.abs(rand)) + 1) - 1);
-    return rand - Math.trunc(rand);
+    // https://en.wikipedia.org/wiki/Double-precision_floating-point_format#IEEE_754_double-precision_binary_floating-point_format:_binary64
+    let mantissa = crypto.randomBytes(6).toString('hex') + '0';
+    let hexRepresentation = '3ff' + mantissa;
+    return new Buffer(hexRepresentation, 'hex').readDoubleBE(0) - 1;
   }
 
   /**
@@ -188,7 +189,7 @@ export class PasswordGenerator {
       copyPaste.copy(chosenPassword, () => {
         console.log('\nPassword successfully copied to clipboard!'.gray);
         process.exit(0);
-      });  
+      });
     } else {
       process.exit(0);
     }
