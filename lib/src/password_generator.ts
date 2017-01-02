@@ -3,6 +3,7 @@
 import 'colors';
 import * as inquirer from 'inquirer';
 import * as copyPaste from 'copy-paste';
+import * as crypto from 'crypto';
 import { PasswordGeneratorOptions, GeneratedPassword, PasswordAnswer }  from './password_generator.interface';
 import { latin1List, lowercaseLettersList, numbersList, specialCharactersList, uppercaseLettersList } from './charsets';
 
@@ -54,6 +55,15 @@ export class PasswordGenerator {
     return amount * length + amount * delimiter.length;
   }
 
+  private random(): number {
+    let rand = crypto.randomBytes(32).readUInt32LE(0);
+    if (rand === 0) {
+        return 0;
+    }
+    rand /= 10 ** (Math.floor(Math.log10(Math.abs(rand)) + 1) - 1);
+    return rand - Math.trunc(rand);
+  }
+
   /**
    * Generates a password based on this.options. This method will recursively
    * call itself if the password does not contain at least one character from
@@ -96,7 +106,7 @@ export class PasswordGenerator {
       let part = '';
 
       while (part.length < length) {
-        let randomIndex = Math.floor(Math.random() * list.length);
+        let randomIndex = Math.floor(this.random() * list.length);
         part += list[randomIndex];
       }
 
