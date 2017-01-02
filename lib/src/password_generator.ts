@@ -49,6 +49,11 @@ export class PasswordGenerator {
     ].reduce((prev, curr) => prev += +curr, 0);
   }
 
+  get passwordLength() {
+    let { amount, length, delimiter } = this.options.parts;
+    return amount * length + amount * delimiter.length;
+  }
+
   /**
    * Generates a password based on this.options. This method will recursively
    * call itself if the password does not contain at least one character from
@@ -58,7 +63,7 @@ export class PasswordGenerator {
     let list: string[] = []; // This will hold all the characters that are going to be used
     let password: string = '';
 
-    if (this.options.parts.length < this.countActiveCharsets()) {
+    if (this.passwordLength < this.countActiveCharsets()) {
       throw new Error('Cannot generate a password with the current configuration');
     }
 
