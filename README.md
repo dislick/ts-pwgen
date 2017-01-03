@@ -38,6 +38,7 @@ Options:
                    crack your generated password(s)  [boolean] [Standard: false]
   -k               Do not copy the password to the clipboard
                                                      [boolean] [Standard: false]
+  --version        Display current version                             [boolean]
   -h, --help       Show help                                           [boolean]
 ```
 
