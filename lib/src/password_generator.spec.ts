@@ -191,5 +191,72 @@ describe('PasswordGenerator', () => {
       expect(average).to.be.approximately(0.5, 0.01);
     });
   });
+
+  describe('#passwordLength()', () => {
+    it('should return the password length for 1 part passwords', () => {
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 1, length: 30, delimiter: '-' }
+      });
+
+      expect(pwgen.passwordLength).to.be.equal(30);
+    });
+
+    it('should return the password length for 2 part passwords', () => {
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 2, length: 10, delimiter: '-' }
+      });
+
+      expect(pwgen.passwordLength).to.be.equal(21); // 10 chars + delimiter + 10 chars
+    });
+
+    it('should return the password length for 3 part passwords', () => {
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 3, length: 5, delimiter: '-' }
+      });
+
+      expect(pwgen.passwordLength).to.be.equal(17);
+    });
+
+    it('should return the password length for delimiters > 1 char', () => {
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 2, length: 25, delimiter: '---' }
+      });
+
+      expect(pwgen.passwordLength).to.be.equal(53);
+    });
+
+    it('should return the password length for delimiters > 1 char', () => {
+      let pwgen = new PasswordGenerator({
+        lowercaseLetters: true,
+        uppercaseLetters: true,
+        numbers: true,
+        specialCharacters: true,
+        latin1Characters: true,
+        parts: { amount: 3, length: 10, delimiter: '---' }
+      });
+
+      expect(pwgen.passwordLength).to.be.equal(36);
+    });
+  });
 });
 

@@ -52,7 +52,7 @@ export class PasswordGenerator {
 
   get passwordLength() {
     let { amount, length, delimiter } = this.options.parts;
-    return amount * length + amount * delimiter.length;
+    return amount * length + (amount - 1) * delimiter.length;
   }
 
   /**
