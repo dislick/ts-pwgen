@@ -1,6 +1,5 @@
-/// <reference path="../../typings/index.d.ts" />
-
 import { expect } from 'chai';
+import 'mocha';
 import { PasswordGenerator } from './password_generator';
 
 describe('PasswordGenerator', () => {

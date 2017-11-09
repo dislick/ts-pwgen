@@ -1,5 +1,3 @@
-/// <reference path="../../typings/index.d.ts" />
-
 import 'colors';
 import * as inquirer from 'inquirer';
 import * as copyPaste from 'copy-paste';
