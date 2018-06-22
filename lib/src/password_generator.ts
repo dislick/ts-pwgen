@@ -48,6 +48,10 @@ export class PasswordGenerator {
     ].reduce((prev, curr) => prev += +curr, 0);
   }
 
+  /**
+   * Returns the password length, taking all parts and potential delimiters into
+   * account.
+   */
   get passwordLength() {
     let { amount, length, delimiter } = this.options.parts;
     return amount * length + (amount - 1) * delimiter.length;
