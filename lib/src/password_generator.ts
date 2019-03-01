@@ -62,7 +62,7 @@ export class PasswordGenerator {
    */
   random(): number {
     let hexRepresentation = '3ff' + crypto.randomBytes(6).toString('hex') + '0';
-    return new Buffer(hexRepresentation, 'hex').readDoubleBE(0) - 1;
+    return Buffer.from(hexRepresentation, 'hex').readDoubleBE(0) - 1;
   }
 
   /**

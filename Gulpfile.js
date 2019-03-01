@@ -10,12 +10,12 @@ var config = {
   dest: 'lib/dest',
 };
 
-gulp.task('clean', function() {
+gulp.task('clean', gulp.series(function() {
   return gulp.src(config.dest)
     .pipe(clean());
-});
+}));
 
-gulp.task('typescript', ['clean'], function() {
+gulp.task('typescript', gulp.series('clean', function() {
   return gulp.src(config.src)
     .pipe(typescript({
       module: 'commonjs',
@@ -23,20 +23,17 @@ gulp.task('typescript', ['clean'], function() {
       typescript: require('typescript')
     }))
     .pipe(gulp.dest(config.dest));
-});
+}));
 
-gulp.task('build', function() {
-  gulp.start('typescript');
-});
+gulp.task('build', gulp.series('typescript'));
 
-gulp.task('test', ['typescript'], function() {
+gulp.task('test', gulp.series('typescript', function() {
   gulp.src(config.dest + '/**/*.spec.js')
     .pipe(mocha({ reporter: 'spec' }))
-});
+}));
 
-gulp.task('default', ['clean'], function() {
-  gulp.start('typescript');
+gulp.task('default', gulp.series('clean', 'typescript', function() {
   gulp.watch([
     config.src
   ], ['typescript']);
-});
+}));
