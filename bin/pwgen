@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
-var PasswordGenerator = require('../lib/dest/password_generator.js').PasswordGenerator;
-var argv = require('yargs')
-  .usage('Usage: $0 [--length 10] [--parts 3] [--delimiter "-"] [--count 3] [-aAns]')
+const PasswordGenerator = require('../lib/dest/password_generator.js')
+  .PasswordGenerator;
+const argv = require('yargs')
+  .usage(
+    'Usage: $0 [--length 10] [--parts 3] [--delimiter "-"] [--count 3] [-aAns]'
+  )
   .describe('p', 'Define how many parts there should be')
   .describe('l', 'Define the length of a part')
   .describe('d', 'Define the delimiter to use if there are multiple parts')
@@ -12,7 +15,10 @@ var argv = require('yargs')
   .describe('n', 'Use numbers')
   .describe('s', 'Use special characters')
   .describe('x', 'Use latin1 characters')
-  .describe('v', 'Verbose output, see how long it would take a supercomputer to crack your generated password(s)')
+  .describe(
+    'v',
+    'Verbose output, see how long it would take a supercomputer to crack your generated password(s)'
+  )
   .describe('k', 'Do not copy the password to the clipboard')
   .describe('version', 'Display current version')
   .help('h')
@@ -21,8 +27,10 @@ var argv = require('yargs')
   .boolean('n')
   .boolean('s')
   .boolean('x')
-  .boolean('v').default('v', false)
-  .boolean('k').default('k', false)
+  .boolean('v')
+  .default('v', false)
+  .boolean('k')
+  .default('k', false)
   .boolean('version')
   .default('c', 1)
   .alias('h', 'help')
@@ -35,15 +43,14 @@ var argv = require('yargs')
   .alias('s', 'special')
   .alias('x', 'latin1')
   .alias('c', 'count')
-  .alias('v', 'verbose')
-  .argv;
+  .alias('v', 'verbose').argv;
 
 if (argv.version) {
   console.log(`ts-pwgen version ${require('../package.json').version}`);
   process.exit(0);
 }
 
-var pwgen = new PasswordGenerator();
+const pwgen = new PasswordGenerator();
 
 if (argv.parts) {
   pwgen.options.parts.amount = argv.p || argv.parts;
@@ -63,9 +70,15 @@ pwgen.options.numbers = argv.numbers;
 pwgen.options.specialCharacters = argv.special;
 pwgen.options.latin1Characters = argv.latin1;
 
-if (!argv.ascii && !argv.ASCII && !argv.numbers && !argv.special && !argv.latin1) {
+if (
+  !argv.ascii &&
+  !argv.ASCII &&
+  !argv.numbers &&
+  !argv.special &&
+  !argv.latin1
+) {
   pwgen.options.lowercaseLetters = true;
-  pwgen.options.uppercaseLetters = true;  
+  pwgen.options.uppercaseLetters = true;
   pwgen.options.numbers = true;
   pwgen.options.specialCharacters = true;
   pwgen.options.latin1Characters = false;
