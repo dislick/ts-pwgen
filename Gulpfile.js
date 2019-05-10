@@ -36,7 +36,9 @@ gulp.task('build', gulp.series('typescript'));
 gulp.task(
   'test',
   gulp.series('typescript', function() {
-    gulp.src(config.dest + '/**/*.spec.js').pipe(mocha({ reporter: 'spec' }));
+    return gulp
+      .src(config.dest + '/**/*.spec.js')
+      .pipe(mocha({ reporter: 'spec' }));
   })
 );
 
