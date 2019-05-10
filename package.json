@@ -26,20 +26,20 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/colors": "^1.2.1",
-    "@types/inquirer": "6.0.0",
+    "@types/inquirer": "6.0.1",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.4",
+    "@types/node": "^12.0.0",
     "chai": "^4.2.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-mocha": "^6.0.0",
     "gulp-typescript": "^5.0.1",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.5"
   },
   "dependencies": {
     "colors": "^1.3.3",
     "copy-paste": "^1.3.0",
-    "inquirer": "^6.2.2",
+    "inquirer": "^6.3.1",
     "yargs": "^13.2.2"
   }
 }
