@@ -2,7 +2,7 @@
 
 Command-Line Password Generator in TypeScript
 
-[![npm](https://img.shields.io/npm/v/ts-pwgen.svg)](https://www.npmjs.com/package/ts-pwgen) [![npm](https://img.shields.io/npm/dm/ts-pwgen.svg)](https://www.npmjs.com/package/ts-pwgen)
+[![npm](https://img.shields.io/npm/v/ts-pwgen.svg)](https://www.npmjs.com/package/ts-pwgen) [![npm](https://img.shields.io/npm/dt/ts-pwgen.svg)](https://www.npmjs.com/package/ts-pwgen)
 
 ## Installation
 
