@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import 'mocha';
 import { PasswordGenerator } from './password_generator';
 
 describe('PasswordGenerator', () => {
@@ -9,25 +7,25 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts.length = 0;
       expect(() => {
         pwgen.generate();
-      }).to.throw();
+      }).toThrow();
     });
 
     it('should be able to generate a password of length 10', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 10;
-      expect(pwgen.generate().value).to.have.length(10);
+      expect(pwgen.generate().value).toHaveLength(10);
     });
 
     it('should be able to generate a password of length 20', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 20;
-      expect(pwgen.generate().value).to.have.length(20);
+      expect(pwgen.generate().value).toHaveLength(20);
     });
 
     it('should be able to generate a password of length 100', () => {
       let pwgen = new PasswordGenerator();
       pwgen.options.parts.length = 100;
-      expect(pwgen.generate().value).to.have.length(100);
+      expect(pwgen.generate().value).toHaveLength(100);
     });
 
     it('should be able to generate 2 parts of 5 with a dash delimiter', () => {
@@ -36,10 +34,10 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts = {
         amount: 2,
         length: 5,
-        delimiter: '-'
+        delimiter: '-',
       };
       let expectRegex = /[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}/;
-      expect(expectRegex.test(pwgen.generate().value)).to.be.true;
+      expect(expectRegex.test(pwgen.generate().value)).toBe(true);
     });
 
     it('should be able to generate 3 parts of 6 with a dash delimiter', () => {
@@ -48,10 +46,10 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts = {
         amount: 3,
         length: 6,
-        delimiter: '-'
+        delimiter: '-',
       };
       let expectRegex = /[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}/;
-      expect(expectRegex.test(pwgen.generate().value)).to.be.true;
+      expect(expectRegex.test(pwgen.generate().value)).toBe(true);
     });
 
     it('should be able to generate 3 parts of 10 with a ! delimiter', () => {
@@ -60,10 +58,10 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts = {
         amount: 3,
         length: 10,
-        delimiter: '!'
+        delimiter: '!',
       };
       let expectRegex = /[a-zA-Z0-9]{10}![a-zA-Z0-9]{10}![a-zA-Z0-9]{10}/;
-      expect(expectRegex.test(pwgen.generate().value)).to.be.true;
+      expect(expectRegex.test(pwgen.generate().value)).toBe(true);
     });
 
     it('should include at least one letter from each specified charset', () => {
@@ -77,15 +75,15 @@ describe('PasswordGenerator', () => {
         parts: {
           amount: 1,
           length: 3,
-          delimiter: '-'
-        }
-      }
+          delimiter: '-',
+        },
+      };
 
       for (let i = 0; i < 1000; i++) {
         let password = pwgen.generate().value;
-        expect(/[a-z]/.test(password), `Did not include a lowercase letter, ${password}`).to.be.true;
-        expect(/[A-Z]/.test(password), `Did not include an uppercase letter, ${password}`).to.be.true;
-        expect(/[0-9]/.test(password), `Did not include a number, ${password}`).to.be.true;
+        expect(/[a-z]/.test(password)).toBe(true);
+        expect(/[A-Z]/.test(password)).toBe(true);
+        expect(/[0-9]/.test(password)).toBe(true);
       }
     });
 
@@ -96,11 +94,11 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 1, length: 3, delimiter: '-' }
+        parts: { amount: 1, length: 3, delimiter: '-' },
       });
       expect(() => {
         pwgen.generate();
-      }).to.throw();
+      }).toThrow();
     });
 
     it('should not throw an error if the length is smaller than the amount of charsets but there are enough parts', () => {
@@ -112,11 +110,11 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 2, length: 2, delimiter: '-' }
+        parts: { amount: 2, length: 2, delimiter: '-' },
       });
       expect(() => {
         pwgen.generate();
-      }).not.to.throw();
+      }).not.toThrow();
     });
   });
 
@@ -124,19 +122,19 @@ describe('PasswordGenerator', () => {
     it('should be able to generate 1 password', () => {
       let pwgen = new PasswordGenerator();
       let output = pwgen.generateMultiple(1);
-      expect(output).to.have.length(1);
+      expect(output).toHaveLength(1);
     });
 
     it('should be able to generate 3 passwords', () => {
       let pwgen = new PasswordGenerator();
       let output = pwgen.generateMultiple(3);
-      expect(output).to.have.length(3);
+      expect(output).toHaveLength(3);
     });
 
     it('should be able to generate 20 passwords', () => {
       let pwgen = new PasswordGenerator();
       let output = pwgen.generateMultiple(20);
-      expect(output).to.have.length(20);
+      expect(output).toHaveLength(20);
     });
   });
 
@@ -148,9 +146,9 @@ describe('PasswordGenerator', () => {
         numbers: false,
         specialCharacters: false,
         latin1Characters: false,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
-      expect(pwgen.countActiveCharsets()).to.be.equal(0);
+      expect(pwgen.countActiveCharsets()).toBe(0);
     });
 
     it('should return 1 because 1 charset is active', () => {
@@ -160,9 +158,9 @@ describe('PasswordGenerator', () => {
         numbers: false,
         specialCharacters: false,
         latin1Characters: false,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
-      expect(pwgen.countActiveCharsets()).to.be.equal(1);
+      expect(pwgen.countActiveCharsets()).toBe(1);
     });
 
     it('should return 5 because 5 charsets are active', () => {
@@ -172,9 +170,9 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
-      expect(pwgen.countActiveCharsets()).to.be.equal(5);
+      expect(pwgen.countActiveCharsets()).toBe(5);
     });
   });
 
@@ -186,8 +184,8 @@ describe('PasswordGenerator', () => {
       for (let i = 0; i < 10000; i++) {
         all.push(pwgen.random());
       }
-      let average = all.reduce((prev, curr) => curr += prev, 0) / all.length;
-      expect(average).to.be.approximately(0.5, 0.01);
+      let average = all.reduce((prev, curr) => (curr += prev), 0) / all.length;
+      expect(average).toBeCloseTo(0.5, 0.01);
     });
   });
 
@@ -199,10 +197,10 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
 
-      expect(pwgen.passwordLength).to.be.equal(30);
+      expect(pwgen.passwordLength).toBe(30);
     });
 
     it('should return the password length for 2 part passwords', () => {
@@ -212,10 +210,10 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 2, length: 10, delimiter: '-' }
+        parts: { amount: 2, length: 10, delimiter: '-' },
       });
 
-      expect(pwgen.passwordLength).to.be.equal(21); // 10 chars + delimiter + 10 chars
+      expect(pwgen.passwordLength).toBe(21); // 10 chars + delimiter + 10 chars
     });
 
     it('should return the password length for 3 part passwords', () => {
@@ -225,10 +223,10 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 3, length: 5, delimiter: '-' }
+        parts: { amount: 3, length: 5, delimiter: '-' },
       });
 
-      expect(pwgen.passwordLength).to.be.equal(17);
+      expect(pwgen.passwordLength).toBe(17);
     });
 
     it('should return the password length for delimiters > 1 char', () => {
@@ -238,10 +236,10 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 2, length: 25, delimiter: '---' }
+        parts: { amount: 2, length: 25, delimiter: '---' },
       });
 
-      expect(pwgen.passwordLength).to.be.equal(53);
+      expect(pwgen.passwordLength).toBe(53);
     });
 
     it('should return the password length for delimiters > 1 char', () => {
@@ -251,11 +249,10 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 3, length: 10, delimiter: '---' }
+        parts: { amount: 3, length: 10, delimiter: '---' },
       });
 
-      expect(pwgen.passwordLength).to.be.equal(36);
+      expect(pwgen.passwordLength).toBe(36);
     });
   });
 });
-

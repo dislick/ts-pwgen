@@ -10,7 +10,7 @@ export interface PasswordGeneratorOptions {
     amount: number;
     length: number;
     delimiter: string;
-  }
+  };
 }
 
 export interface GeneratedPassword {

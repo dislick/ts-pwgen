@@ -7,9 +7,10 @@
     "pwgen": "./bin/pwgen"
   },
   "scripts": {
-    "test": "gulp test",
-    "build": "gulp build",
-    "prepublish": "gulp build"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "tsc",
+    "format": "prettier --write \"lib/src/*.ts\""
   },
   "keywords": [
     "password",
@@ -27,19 +28,23 @@
     "@types/chai": "^4.1.7",
     "@types/colors": "^1.2.1",
     "@types/inquirer": "6.0.3",
-    "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
-    "chai": "^4.2.0",
-    "gulp": "^4.0.2",
-    "gulp-clean": "^0.4.0",
-    "gulp-mocha": "^6.0.0",
-    "gulp-typescript": "^5.0.1",
-    "typescript": "^3.5.2"
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.2"
   },
   "dependencies": {
+    "@types/copy-paste": "^1.1.30",
+    "@types/jest": "^25.2.1",
     "colors": "^1.3.3",
     "copy-paste": "^1.3.0",
     "inquirer": "^6.4.1",
+    "jest": "^25.5.4",
+    "ts-jest": "^25.5.1",
     "yargs": "^13.2.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "rootDir": "lib/src"
   }
 }
