@@ -154,7 +154,7 @@ export class PasswordGenerator {
    */
   async interactive(amount: number, verbose: boolean = false, noClipboard: boolean = false) {
     let passwords: GeneratedPassword[];
-    let chosenPassword: string;
+    let chosenPassword: string = '';
 
     try {
       passwords = this.generateMultiple(amount);
