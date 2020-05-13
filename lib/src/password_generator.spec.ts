@@ -36,7 +36,7 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts = {
         amount: 2,
         length: 5,
-        delimiter: '-'
+        delimiter: '-',
       };
       let expectRegex = /[a-zA-Z0-9]{5}-[a-zA-Z0-9]{5}/;
       expect(expectRegex.test(pwgen.generate().value)).to.be.true;
@@ -48,7 +48,7 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts = {
         amount: 3,
         length: 6,
-        delimiter: '-'
+        delimiter: '-',
       };
       let expectRegex = /[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}-[a-zA-Z0-9]{6}/;
       expect(expectRegex.test(pwgen.generate().value)).to.be.true;
@@ -60,7 +60,7 @@ describe('PasswordGenerator', () => {
       pwgen.options.parts = {
         amount: 3,
         length: 10,
-        delimiter: '!'
+        delimiter: '!',
       };
       let expectRegex = /[a-zA-Z0-9]{10}![a-zA-Z0-9]{10}![a-zA-Z0-9]{10}/;
       expect(expectRegex.test(pwgen.generate().value)).to.be.true;
@@ -77,15 +77,22 @@ describe('PasswordGenerator', () => {
         parts: {
           amount: 1,
           length: 3,
-          delimiter: '-'
-        }
-      }
+          delimiter: '-',
+        },
+      };
 
       for (let i = 0; i < 1000; i++) {
         let password = pwgen.generate().value;
-        expect(/[a-z]/.test(password), `Did not include a lowercase letter, ${password}`).to.be.true;
-        expect(/[A-Z]/.test(password), `Did not include an uppercase letter, ${password}`).to.be.true;
-        expect(/[0-9]/.test(password), `Did not include a number, ${password}`).to.be.true;
+        expect(
+          /[a-z]/.test(password),
+          `Did not include a lowercase letter, ${password}`,
+        ).to.be.true;
+        expect(
+          /[A-Z]/.test(password),
+          `Did not include an uppercase letter, ${password}`,
+        ).to.be.true;
+        expect(/[0-9]/.test(password), `Did not include a number, ${password}`)
+          .to.be.true;
       }
     });
 
@@ -96,7 +103,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 1, length: 3, delimiter: '-' }
+        parts: { amount: 1, length: 3, delimiter: '-' },
       });
       expect(() => {
         pwgen.generate();
@@ -112,7 +119,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 2, length: 2, delimiter: '-' }
+        parts: { amount: 2, length: 2, delimiter: '-' },
       });
       expect(() => {
         pwgen.generate();
@@ -148,7 +155,7 @@ describe('PasswordGenerator', () => {
         numbers: false,
         specialCharacters: false,
         latin1Characters: false,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
       expect(pwgen.countActiveCharsets()).to.be.equal(0);
     });
@@ -160,7 +167,7 @@ describe('PasswordGenerator', () => {
         numbers: false,
         specialCharacters: false,
         latin1Characters: false,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
       expect(pwgen.countActiveCharsets()).to.be.equal(1);
     });
@@ -172,7 +179,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
       expect(pwgen.countActiveCharsets()).to.be.equal(5);
     });
@@ -186,7 +193,7 @@ describe('PasswordGenerator', () => {
       for (let i = 0; i < 10000; i++) {
         all.push(pwgen.random());
       }
-      let average = all.reduce((prev, curr) => curr += prev, 0) / all.length;
+      let average = all.reduce((prev, curr) => (curr += prev), 0) / all.length;
       expect(average).to.be.approximately(0.5, 0.01);
     });
   });
@@ -199,7 +206,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 1, length: 30, delimiter: '-' }
+        parts: { amount: 1, length: 30, delimiter: '-' },
       });
 
       expect(pwgen.passwordLength).to.be.equal(30);
@@ -212,7 +219,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 2, length: 10, delimiter: '-' }
+        parts: { amount: 2, length: 10, delimiter: '-' },
       });
 
       expect(pwgen.passwordLength).to.be.equal(21); // 10 chars + delimiter + 10 chars
@@ -225,7 +232,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 3, length: 5, delimiter: '-' }
+        parts: { amount: 3, length: 5, delimiter: '-' },
       });
 
       expect(pwgen.passwordLength).to.be.equal(17);
@@ -238,7 +245,7 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 2, length: 25, delimiter: '---' }
+        parts: { amount: 2, length: 25, delimiter: '---' },
       });
 
       expect(pwgen.passwordLength).to.be.equal(53);
@@ -251,11 +258,10 @@ describe('PasswordGenerator', () => {
         numbers: true,
         specialCharacters: true,
         latin1Characters: true,
-        parts: { amount: 3, length: 10, delimiter: '---' }
+        parts: { amount: 3, length: 10, delimiter: '---' },
       });
 
       expect(pwgen.passwordLength).to.be.equal(36);
     });
   });
 });
-
