@@ -1,2 +1,7 @@
 node_modules/
-!lib/dest
+/lib/src
+/lib/dest/*.spec.js
+/lib/dest/*.spec.d.ts
+/pwgendemo.gif
+/.prettierrc
+/tsconfig.json
